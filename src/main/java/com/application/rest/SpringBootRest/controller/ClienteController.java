@@ -3,21 +3,18 @@ package com.application.rest.SpringBootRest.controller;
 import com.application.rest.SpringBootRest.model.dto.ClienteDto;
 import com.application.rest.SpringBootRest.model.entity.Cliente;
 import com.application.rest.SpringBootRest.model.payload.MensajeResponse;
-import com.application.rest.SpringBootRest.service.ICliente;
+import com.application.rest.SpringBootRest.service.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/v1")
 public class ClienteController {
     @Autowired
-    private ICliente clienteService; //se llama al servicio
+    private IClienteService clienteService; //se llama al servicio
 
     @PostMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,9 +48,7 @@ public class ClienteController {
     public ResponseEntity<?> update(@RequestBody ClienteDto clienteDto, @PathVariable Long id){
         Cliente clienteUpdate = null;
         try{
-            //consultar a traves del finById el Id del cliente
-            Cliente findCliente = clienteService.findById(id);
-            if (findCliente != null){ //si lo encuentra, que actualice el id
+            if (clienteService.existsById(id)){ //si lo encuentra, que actualice el id
                 clienteUpdate = clienteService.save(clienteDto);
                 return new ResponseEntity<>(MensajeResponse.builder()
                         .mensaje("Actualizado correctamente")
