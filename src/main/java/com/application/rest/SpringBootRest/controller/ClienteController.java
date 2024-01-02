@@ -20,9 +20,9 @@ public class ClienteController {
 
     @PostMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente create(@RequestBody ClienteDto clienteDto){
+    public ClienteDto create(@RequestBody ClienteDto clienteDto){
         Cliente clienteSave = clienteService.save(clienteDto);
-        return Cliente.builder()
+        return ClienteDto.builder()
                 .idCliente(clienteSave.getIdCliente())
                 .nombre(clienteSave.getNombre())
                 .apellido(clienteSave.getApellido())
@@ -33,9 +33,9 @@ public class ClienteController {
 
     @PutMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente update(@RequestBody ClienteDto clienteDto){
+    public ClienteDto update(@RequestBody ClienteDto clienteDto){
         Cliente clienteUpdate = clienteService.save(clienteDto);
-        return Cliente.builder()
+        return ClienteDto.builder()
                 .idCliente(clienteUpdate.getIdCliente())
                 .nombre(clienteUpdate.getNombre())
                 .apellido(clienteUpdate.getApellido())
@@ -63,7 +63,14 @@ public class ClienteController {
     @GetMapping("cliente/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ClienteDto showById(@PathVariable Long id){
-        return clienteService.findById(id);
+         Cliente cliente = clienteService.findById(id);
+        return ClienteDto.builder()
+                .idCliente(cliente.getIdCliente())
+                .nombre(cliente.getNombre())
+                .apellido(cliente.getApellido())
+                .correo(cliente.getCorreo())
+                .fechaRegistro(cliente.getFechaRegistro())
+                .build();
     }
 
 }
