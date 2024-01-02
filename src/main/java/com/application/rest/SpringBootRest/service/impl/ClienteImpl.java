@@ -16,20 +16,22 @@ public class ClienteImpl implements ICliente {
 
     @Transactional
     @Override
-    public ClienteDto save(ClienteDto cliente) {
+    public Cliente save(ClienteDto clienteDto) {
+        //vamos a instanciar
+        Cliente cliente = Cliente.builder().idCliente(clienteDto.getIdCliente()).build();
         return clienteDao.save(cliente);
     }
 
     @Transactional(readOnly = true) //especifica que es solo una consulta
     @Override
-    public ClienteDto findById(Long id) {
+    public Cliente findById(Long id) {
         //orElse --> si el objeto no existe lo marca como null
         return clienteDao.findById(id).orElse(null);
     }
 
     @Transactional
     @Override
-    public void delete(ClienteDto cliente) {
+    public void delete(ClienteDto clienteDto) {
         clienteDao.delete(cliente);
     }
 }
