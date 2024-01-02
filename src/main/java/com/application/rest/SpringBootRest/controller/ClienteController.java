@@ -49,6 +49,7 @@ public class ClienteController {
         Cliente clienteUpdate = null;
         try{
             if (clienteService.existsById(id)){ //si lo encuentra, que actualice el id
+                clienteDto.setIdCliente(id); //validación
                 clienteUpdate = clienteService.save(clienteDto);
                 return new ResponseEntity<>(MensajeResponse.builder()
                         .mensaje("Actualizado correctamente")
