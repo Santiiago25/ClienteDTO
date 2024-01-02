@@ -20,13 +20,13 @@ public class ClienteController {
 
     @PostMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente create(@RequestBody ClienteDto cliente){
+    public Cliente create(@RequestBody ClienteDto clienteDto){
         return clienteService.save(cliente);
     }
 
     @PutMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente update(@RequestBody ClienteDto cliente){
+    public Cliente update(@RequestBody ClienteDto clienteDto){
         return clienteService.save(cliente);
     }
 
@@ -35,7 +35,7 @@ public class ClienteController {
         //estructura basica para el ResponseEntity
         Map<String, Object> response = new HashMap<>();
         try{
-            ClienteDto clienteDelete = clienteService.findById(id);
+            Cliente clienteDelete = clienteService.findById(id);
             clienteService.delete(clienteDelete);
             return new ResponseEntity<>(clienteDelete, HttpStatus.NO_CONTENT);
         }catch (DataAccessException exDt){ //en caso que no encuentre el id que se va a eliminar

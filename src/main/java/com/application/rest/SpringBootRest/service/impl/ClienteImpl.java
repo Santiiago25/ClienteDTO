@@ -37,15 +37,7 @@ public class ClienteImpl implements ICliente {
 
     @Transactional
     @Override
-    public void delete(ClienteDto clienteDto) {
-        //vamos a instanciar
-        Cliente cliente = Cliente.builder()
-                .idCliente(clienteDto.getIdCliente())
-                .nombre(clienteDto.getNombre())
-                .apellido(clienteDto.getApellido())
-                .correo(clienteDto.getCorreo())
-                .fechaRegistro(clienteDto.getFechaRegistro())
-                .build();
+    public void delete(Cliente cliente) {
         clienteDao.delete(cliente);
     }
 }

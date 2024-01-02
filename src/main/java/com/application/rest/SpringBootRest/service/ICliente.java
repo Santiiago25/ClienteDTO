@@ -9,6 +9,6 @@ public interface ICliente {
 
     Cliente findById(Long id); //busca por id (GET)
 
-    void delete(ClienteDto cliente); //eliminar el cliente (DELETE)
+    void delete(Cliente cliente); //eliminar el cliente (DELETE)
 
 }
