@@ -18,7 +18,13 @@ public class ClienteImpl implements ICliente {
     @Override
     public Cliente save(ClienteDto clienteDto) {
         //vamos a instanciar
-        Cliente cliente = Cliente.builder().idCliente(clienteDto.getIdCliente()).build();
+        Cliente cliente = Cliente.builder()
+                .idCliente(clienteDto.getIdCliente())
+                .nombre(clienteDto.getNombre())
+                .apellido(clienteDto.getApellido())
+                .correo(clienteDto.getCorreo())
+                .fechaRegistro(clienteDto.getFechaRegistro())
+                .build();
         return clienteDao.save(cliente);
     }
 
@@ -32,6 +38,14 @@ public class ClienteImpl implements ICliente {
     @Transactional
     @Override
     public void delete(ClienteDto clienteDto) {
+        //vamos a instanciar
+        Cliente cliente = Cliente.builder()
+                .idCliente(clienteDto.getIdCliente())
+                .nombre(clienteDto.getNombre())
+                .apellido(clienteDto.getApellido())
+                .correo(clienteDto.getCorreo())
+                .fechaRegistro(clienteDto.getFechaRegistro())
+                .build();
         clienteDao.delete(cliente);
     }
 }
