@@ -34,7 +34,14 @@ public class ClienteController {
     @PutMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente update(@RequestBody ClienteDto clienteDto){
-        return clienteService.save(cliente);
+        Cliente clienteUpdate = clienteService.save(clienteDto);
+        return Cliente.builder()
+                .idCliente(clienteUpdate.getIdCliente())
+                .nombre(clienteUpdate.getNombre())
+                .apellido(clienteUpdate.getApellido())
+                .correo(clienteUpdate.getCorreo())
+                .fechaRegistro(clienteUpdate.getFechaRegistro())
+                .build();
     }
 
     @DeleteMapping("cliente/{id}")
