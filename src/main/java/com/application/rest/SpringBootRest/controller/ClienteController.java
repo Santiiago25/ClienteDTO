@@ -21,7 +21,14 @@ public class ClienteController {
     @PostMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente create(@RequestBody ClienteDto clienteDto){
-        return clienteService.save(cliente);
+        Cliente clienteSave = clienteService.save(clienteDto);
+        return Cliente.builder()
+                .idCliente(clienteSave.getIdCliente())
+                .nombre(clienteSave.getNombre())
+                .apellido(clienteSave.getApellido())
+                .correo(clienteSave.getCorreo())
+                .fechaRegistro(clienteSave.getFechaRegistro())
+                .build();
     }
 
     @PutMapping("cliente")
