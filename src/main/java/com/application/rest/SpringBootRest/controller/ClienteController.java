@@ -1,5 +1,6 @@
 package com.application.rest.SpringBootRest.controller;
 
+import com.application.rest.SpringBootRest.model.dto.ClienteDto;
 import com.application.rest.SpringBootRest.model.entity.Cliente;
 import com.application.rest.SpringBootRest.service.ICliente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,13 @@ public class ClienteController {
 
     @PostMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente create(@RequestBody Cliente cliente){
+    public Cliente create(@RequestBody ClienteDto cliente){
         return clienteService.save(cliente);
     }
 
     @PutMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente update(@RequestBody Cliente cliente){
+    public Cliente update(@RequestBody ClienteDto cliente){
         return clienteService.save(cliente);
     }
 
@@ -34,7 +35,7 @@ public class ClienteController {
         //estructura basica para el ResponseEntity
         Map<String, Object> response = new HashMap<>();
         try{
-            Cliente clienteDelete = clienteService.findById(id);
+            ClienteDto clienteDelete = clienteService.findById(id);
             clienteService.delete(clienteDelete);
             return new ResponseEntity<>(clienteDelete, HttpStatus.NO_CONTENT);
         }catch (DataAccessException exDt){ //en caso que no encuentre el id que se va a eliminar
@@ -47,7 +48,7 @@ public class ClienteController {
 
     @GetMapping("cliente/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente showById(@PathVariable Long id){
+    public ClienteDto showById(@PathVariable Long id){
         return clienteService.findById(id);
     }
 
