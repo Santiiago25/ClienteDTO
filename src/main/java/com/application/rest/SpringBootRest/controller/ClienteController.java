@@ -2,6 +2,7 @@ package com.application.rest.SpringBootRest.controller;
 
 import com.application.rest.SpringBootRest.model.dto.ClienteDto;
 import com.application.rest.SpringBootRest.model.entity.Cliente;
+import com.application.rest.SpringBootRest.model.payload.MensajeResponse;
 import com.application.rest.SpringBootRest.service.ICliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -47,16 +48,18 @@ public class ClienteController {
     @DeleteMapping("cliente/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         //estructura basica para el ResponseEntity
-        Map<String, Object> response = new HashMap<>();
+
         try{
             Cliente clienteDelete = clienteService.findById(id);
             clienteService.delete(clienteDelete);
             return new ResponseEntity<>(clienteDelete, HttpStatus.NO_CONTENT);
         }catch (DataAccessException exDt){ //en caso que no encuentre el id que se va a eliminar
-            //vamos a enviar un mapa de errores
-            response.put("mensaje: ", exDt.getMessage()); //enviamos la exception
-            response.put("cliente: ", null);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR); //error en la base de datos porque no encuentra el id
+            return new ResponseEntity<>(
+                    MensajeResponse.builder()
+                        .mensaje(exDt.getMessage())
+                        .object(null)
+                        .build()
+                    , HttpStatus.INTERNAL_SERVER_ERROR); //error en la base de datos porque no encuentra el id
         }
     }
 
