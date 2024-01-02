@@ -8,11 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ClienteImplService implements IClienteService {
 
     @Autowired //inyeccion de dependencia, la otra forma es creando el constructor
     private ClienteDao clienteDao;
+
+    @Override
+    public List<ClienteDto> listAll() {
+        return (List) clienteDao.findAll();
+    }
 
     @Transactional
     @Override

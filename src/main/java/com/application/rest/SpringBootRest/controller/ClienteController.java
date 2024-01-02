@@ -10,11 +10,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 public class ClienteController {
     @Autowired
     private IClienteService clienteService; //se llama al servicio
+
+    @GetMapping("clientes")
+    public ResponseEntity<?> showAll(){
+       List<ClienteDto> getList = clienteService.listAll();
+        if (getList == null){
+            return new ResponseEntity<>(
+                    MensajeResponse.builder()
+                            .mensaje("No hay registros")
+                            .object(null)
+                            .build()
+                    , HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(
+                MensajeResponse.builder()
+                        .mensaje("Registros de los clientes")
+                        .object(getList)
+                        .build()
+                , HttpStatus.OK);
+    }
 
     @PostMapping("cliente")
     @ResponseStatus(HttpStatus.CREATED)
@@ -107,7 +129,7 @@ public class ClienteController {
                              .mensaje("El Registro que intenta buscar no existe")
                              .object(null)
                              .build()
-                     , HttpStatus.INTERNAL_SERVER_ERROR); //error en la base de datos porque no encuentra el id
+                     , HttpStatus.NOT_FOUND);
          }
         return new ResponseEntity<>(
                 MensajeResponse.builder()
