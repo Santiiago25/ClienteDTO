@@ -1,10 +1,7 @@
 package com.application.rest.SpringBootRest.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
@@ -13,6 +10,7 @@ import java.util.Date;
 @NoArgsConstructor //genera contructor vacio
 @ToString
 @Entity //definiendo que la clase es una entidad
+@Builder
 @Table(name = "clientes") //nombre de la tabla
 public class Cliente {
 
