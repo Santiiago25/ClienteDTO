@@ -47,23 +47,33 @@ public class ClienteController {
         }
     }
 
-    @PutMapping("cliente")
-    public ResponseEntity<?> update(@RequestBody ClienteDto clienteDto){
+    @PutMapping("cliente/{id}") //agregamos el id como parametro, la idea es que si el id no existe no cree uno nuevo
+    public ResponseEntity<?> update(@RequestBody ClienteDto clienteDto, @PathVariable Long id){
         Cliente clienteUpdate = null;
         try{
-            clienteUpdate = clienteService.save(clienteDto);
-            return new ResponseEntity<>(MensajeResponse.builder()
-                    .mensaje("Actualizado correctamente")
-                    .object(ClienteDto.builder()
-                            .idCliente(clienteUpdate.getIdCliente())
-                            .nombre(clienteUpdate.getNombre())
-                            .apellido(clienteUpdate.getApellido())
-                            .correo(clienteUpdate.getCorreo())
-                            .fechaRegistro(clienteUpdate.getFechaRegistro())
-                            .build())
-                    .build()
-                    , HttpStatus.CREATED);
-
+            //consultar a traves del finById el Id del cliente
+            Cliente findCliente = clienteService.findById(id);
+            if (findCliente != null){ //si lo encuentra, que actualice el id
+                clienteUpdate = clienteService.save(clienteDto);
+                return new ResponseEntity<>(MensajeResponse.builder()
+                        .mensaje("Actualizado correctamente")
+                        .object(ClienteDto.builder()
+                                .idCliente(clienteUpdate.getIdCliente())
+                                .nombre(clienteUpdate.getNombre())
+                                .apellido(clienteUpdate.getApellido())
+                                .correo(clienteUpdate.getCorreo())
+                                .fechaRegistro(clienteUpdate.getFechaRegistro())
+                                .build())
+                        .build()
+                        , HttpStatus.CREATED);
+            }else {
+                return new ResponseEntity<>(
+                        MensajeResponse.builder()
+                                .mensaje("El registro que desea actualizar no existe en la base datos.")
+                                .object(null)
+                                .build()
+                        , HttpStatus.NOT_FOUND);
+            }
         }catch (DataAccessException exDt){
             return new ResponseEntity<>(
                     MensajeResponse.builder()
